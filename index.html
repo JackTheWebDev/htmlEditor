@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link id="importFonts" href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono&display=swap" rel="stylesheet">
+    <title>Html Experiments</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.3/js.cookie.js"></script>
+    
+    
+
+  </head>
+  <body onLoad="setFrame()">
+    <script>
+      $("#myframe").contents().find('#textboxid').blur(function() {
+         $.cookie('textboxvalue', $(this).val()); // for storing
+      });
+      
+    </script>
+    <style>
+      .header{
+        text-align: center;
+        color: Black;
+        font-family: "Roboto", sans-serif;
+      
+      }
+      .header thin{
+        font-family: "Roboto Mono", monospace;
+      }
+      .editor{
+        float: left;
+      }
+      .final{
+        float: right;
+     
+      }
+      .container {
+        width: 960px;
+        position: relative;
+        margin:0 auto;
+        line-height: 1.4em;
+      }
+      #buttonContainer{
+        text-align: center;
+      }
+      a{
+        text-decoration: none;
+        color: black;
+        border: .5px solid black;
+        display: inline-block;
+        padding: 1.5px 1.5px;
+      }
+      .footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        color: black;
+        text-align: center;
+      }
+  
+    
+      @media only screen and (max-width: 479px){
+          .container2 { width: 90%; }
+      }
+
+      
+      
+    </style>
+    <div id="container" class="container">
+      <div id="headerHolder" class="header">
+      <h1>Html Editor</h1>
+      <h3 class="header thin">Made by Jack The Web Dev</h3>
+    </div>
+    <div id="buttonContainer" class="button">
+      <a href="https://fonts.google.com/" target="_blank">Google Fonts</a>
+      <a href="https://developer.mozilla.org/en-US/" target="_blank">MDN Web Docs</a>
+      <a href="https://www.w3schools.com/" target="_blank">W3 School</a>
+      <a href="https://stackoverflow.com/" target="_blank">Stack Overflow</a>
+      <a href="https://www.google.com/search?q=color+picker&rlz=1CAASUL_enEC865&oq=color&aqs=chrome.1.69i57j69i59j69i65j69i60j69i61j69i60.2256j0j7&sourceid=chrome&ie=UTF-8" target="_blank">Color Picker</a>
+      <br>
+      <button onClick="runButton()">Run Code</button>
+      Auto Run Code:<input type="checkbox" onChange="autoRunToggle();" id="myCheck">
+    </div>
+    <br>
+    <div class="editor">
+      <textarea id='editor' placeholder="Write Html Here" rows="33" cols="50" onkeyup='setFrame();'></textarea>
+      <br>
+    </div>
+  
+    <div class="final">
+      <iframe width="500px" height="500px" id="outputIframe"></iframe>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <!--<div id="footer" class="footer">
+      <footer>
+        <br>
+        <a href="https://github.com/JackTheWebDev/htmledit">Github</a>
+        <p>Copyright 2019 JackTheWebDev </p>
+      </footer>
+    </div> -->
+    
+    <script>
+    
+    var autoRun;
+
+    function autoRunToggle(){
+      if(document.getElementById("myCheck").checked==false){
+        autoRun = false;
+      }else{
+        autoRun = true;
+      }
+
+    }
+    
+
+    /* For updating the iframe */
+     function setFrame() {
+        if(autoRun == true){
+            var editorHTML = editor.value;
+      	 	var iframe = document.getElementById('outputIframe');
+      		iframe.contentWindow.document.open();
+      		iframe.contentWindow.document.write(editorHTML);
+      		iframe.contentWindow.document.close();
+        }else{
+          console.log("auto run is false");
+
+        }
+      }
+    	
+    	
+    	function runButton(){
+    	  var editorHTML = editor.value;
+    		var iframe = document.getElementById('outputIframe');
+    		iframe.contentWindow.document.open();
+    		iframe.contentWindow.document.write(editorHTML);
+    		iframe.contentWindow.document.close();
+    	}
+    	
+    	 $(document).ready(function() {
+          var name = Cookies.get('_username');
+          if (name) {
+            $('#editor').val(name);
+          }
+          $('#editor').keydown(function() {
+            var inputName = $('#editor').val();
+            Cookies.set('_username', inputName);
+          })
+        });
+
+    	
+    	// For making tab work.
+    	$(document).delegate('#editor', 'keydown', function(e) {
+      var keyCode = e.keyCode || e.which;
+      if (keyCode == 9) {
+        e.preventDefault();
+        var start = this.selectionStart;
+        var end = this.selectionEnd;
+    
+        // set textarea value to: text before caret + tab + text after caret
+        $(this).val($(this).val().substring(0, start)
+                    + "\t"
+                    + $(this).val().substring(end));
+    
+        // put caret at right position again
+        this.selectionStart =
+        this.selectionEnd = start + 1;
+      }
+    });
+    </script>
+    
+
+    </div>
+  </body>
+</html>
