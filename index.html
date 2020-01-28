@@ -143,13 +143,13 @@
     	}
     	
     	 $(document).ready(function() {
-          var name = Cookies.get('_username');
+          var name = Cookies.get('_htmlCode');
           if (name) {
             $('#editor').val(name);
           }
           $('#editor').keydown(function() {
             var inputName = $('#editor').val();
-            Cookies.set('_username', inputName);
+            Cookies.set('_htmlCode', inputName);
           })
         });
 
